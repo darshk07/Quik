@@ -1,8 +1,6 @@
-import React from 'react'
 
-type Props = {}
 
-const Navbar = (props: Props) => {
+const Navbar = () => {
     return (
         <div className="flex gap-[40px] text-white w-full box-border justify-center">
             <div className="p-2">

@@ -1,12 +1,9 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
-import Timer from './Timer'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Paragraph, { Character } from './Paragraph'
 import Time from './Timer'
 import correct from "../assets/correct.mp3"
 
-type Props = {}
-
-const Hero = (props: Props) => {
+const Hero = () => {
     const [paragraph, setParagraph] = useState<any>(null);
     const [userText, setUserText] = useState<string>(""); // ["" , function]
     const [isOn, setIsOn] = useState<boolean>(false); // [false, function]
