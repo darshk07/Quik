@@ -33,8 +33,8 @@ const Paragraph = (props: Props) => {
                     ref={props.paraRef}
                     className={`text-left 
                     focus:bg-red-700
+                    ${props.isOn ? 'blur-0' : 'blur-sm'}
                     `}>
-                    {/* ${props.isOn ? 'blur-0' : 'blur-sm'} */}
                     {
                         props.data?.map((char: Character) => {
                             return (

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import Timer from './Timer'
 import Paragraph, { Character } from './Paragraph'
 import Time from './Timer'
+import correct from "../assets/correct.mp3"
 
 type Props = {}
 
@@ -13,6 +14,7 @@ const Hero = (props: Props) => {
     const [currentPosition, setCurrentPosition] = useState<number>(0);
     const paragraphRef = useRef<any>(null);
     const actionKeys = ['Enter', 'Backspace', 'Shift']
+    const audioRef = useRef<any>(null);
 
     useEffect(() => {
         if (currentPosition === paragraph?.length) {
@@ -50,6 +52,7 @@ const Hero = (props: Props) => {
                 if (e.key === paragraph[currentPosition].char) {
                     console.log("correct")
                     setCurrentPosition(pos => pos + 1);
+                    audioRef?.current?.play();
                 }
                 else {
                     setParagraph((prev: any) => prev.map((char: Character) => {
@@ -140,6 +143,11 @@ const Hero = (props: Props) => {
 
     return (
         <div className="box-border mt-[60px] flex flex-col items-center">
+            <audio ref={audioRef}>
+                evdrdrv
+                <source src={correct} type="audio/mpeg" />
+                <p>Your browser does not support the audio element.</p>
+            </audio>
             <Time time={time} />
             <Paragraph
                 paraRef={paragraphRef}
