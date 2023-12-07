@@ -100,17 +100,16 @@ const Hero = () => {
     }
 
     const generateNewParagraph = useCallback(() => {
+        // const para = paragraphGenerator();
+        // setParagraph(convertParaToArray(para));
         let config = {
-            url: 'http://metaphorpsum.com/paragraphs/1/1',
+            url: 'https://baconipsum.com/api/?type=all-meat&paras=1&start-with-lorem=1',
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
         }
         fetch(config.url, config)
-            .then((res) => res.text())
+            .then((res) => res.json())
             .then((data) => {
-                setParagraph(convertParaToArray(data));
+                setParagraph(convertParaToArray(data[0]));
             })
             .catch((err) => {
                 console.log(err);
@@ -170,7 +169,6 @@ const Hero = () => {
                         className="btn text-white mt-[60px]">
                         Start
                     </div>
-
             }
         </div >
     )
