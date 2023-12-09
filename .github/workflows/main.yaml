@@ -33,7 +33,7 @@ jobs:
           path: dist
 
       - name: Build Docker image
-        run: docker build darshkejriwal/quiktype
+        run: docker build -t darshkejriwal/quiktype .
       
       - name: Push Docker image
         uses: docker/build-push-action@v2
