@@ -29,7 +29,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: darshkejriwal/${{env.DOCKER_REPO}}:latest
+        # uses: docker/build-push-action@v5
+        run: |
+          docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t darshkejriwal${{env.DOCKER_REPO}}:latest --push .
+        # with:
+        #   context: .
+        #   push: true
+        #   tags: darshkejriwal/${{env.DOCKER_REPO}}:latest
