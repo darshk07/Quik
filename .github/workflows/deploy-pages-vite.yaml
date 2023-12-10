@@ -1,4 +1,4 @@
-name: Vite Github Pages Deploy
+name: Github Pages Deploy
 
 on:
   # Runs on pushes targeting the default branch
@@ -22,7 +22,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment:
-      name: demo
+      name: Production
       url: ${{ steps.deploy_to_pages.outputs.github_pages_url }}
     steps:
       - name: Checkout
