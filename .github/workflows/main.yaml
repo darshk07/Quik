@@ -7,37 +7,29 @@ on:
     branches:
       - main
 
+env:
+  DOCKER_REPO: darshkejriwal/quiktype
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
         with:
-          node-version: 16
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v2
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v5
         with:
-          name: build
-          path: dist
-
-      - name: Build Docker image
-        run: docker build -t darshkejriwal/quiktype .
-      
-      - name: Push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
           push: true
-          tags: darshkejriwal/quiktype:latest
+          tags: /$DOCKER_REPO:latest
