@@ -5,12 +5,13 @@ import correct from "../assets/correct.mp3";
 
 const Hero = () => {
   const [paragraph, setParagraph] = useState<any>(null);
-  const [userText, setUserText] = useState<string>(""); // ["" , function]
-  const [isOn, setIsOn] = useState<boolean>(false); // [false, function]
-  const [time, setTime] = useState<number>(0);
+  const [userText, setUserText] = useState<string>("");
+  const [isOn, setIsOn] = useState<boolean>(false);
+  const [time, setTime] = useState<number>(30);
   const [currentPosition, setCurrentPosition] = useState<number>(0);
   const paragraphRef = useRef<any>(null);
   const audioRef = useRef<any>(null);
+  const [wpm, setWpm] = useState<number>(0);
 
   const generateNewParagraph = useCallback(() => {
     const config = {
@@ -32,7 +33,7 @@ const Hero = () => {
 
   const reset = useCallback(() => {
     generateNewParagraph();
-    setTime(0);
+    setTime(30);
     setCurrentPosition(0);
   }, [generateNewParagraph]);
 
@@ -74,12 +75,10 @@ const Hero = () => {
 
     const func = (e: any) => {
       if (isOn) {
-        // console.log(e.key);
         if (actionKeys.includes(e.key)) {
           return;
         }
         if (e.key === paragraph[currentPosition].char) {
-          // console.log("correct");
           setCurrentPosition((pos) => pos + 1);
           makeSound();
         } else {
@@ -113,12 +112,21 @@ const Hero = () => {
   }, [isOn, currentPosition, paragraph]);
 
   useEffect(() => {
+    setWpm((currentPosition / 5) * (60 / (30 - time)));
+  }, [time, setWpm, currentPosition]);
+
+  useEffect(() => {
     let intervalId: any;
     if (isOn) {
-      intervalId = setInterval(() => setTime(time + 1), 1000);
+      intervalId = setInterval(() => setTime(time - 1), 1000);
+    }
+
+    if (time === 0) {
+      // setIsOn(false);
+      reset();
     }
     return () => clearInterval(intervalId);
-  }, [time, isOn]);
+  }, [time, isOn, reset]);
 
   const convertParaToArray = (text: any) => {
     if (text) {
@@ -148,6 +156,7 @@ const Hero = () => {
         <p>Your browser does not support the audio element.</p>
       </audio>
       <Time time={time} />
+      <div className="text-3xl text-secondary mt-6">{wpm.toFixed()} WPM</div>
       <Paragraph
         paraRef={paragraphRef}
         isOn={isOn}
